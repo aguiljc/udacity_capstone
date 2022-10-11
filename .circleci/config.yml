@@ -90,4 +90,4 @@ workflows:
       - new-build-container:
          requires: [lint-container]
       - publish-latest:
-         requires: [build-container]
+         requires: [new-build-container]
