@@ -29,16 +29,16 @@ jobs:
   build-container:
     executor: docker/docker 
     #  - image: cimg/base:2022.066
-    #    auth:
-    #      username: aguiljc
-    #      password: $DOCKERHUB_PASSWORD
+    #      auth:
+    #        username: aguiljc
+    #        password: $DOCKERHUB_PASSWORD
     steps:
      - checkout
      - setup_remote_docker
      - docker/check
-     - docker/build:
-        image: aguiljc/udacity
-        tag: "latest"
+    #  - docker/build:
+    #     image: aguiljc/udacity
+    #     tag: "latest"
     #  - run: |
         #  echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
         #  docker build -t aguiljc/udacity:latest
