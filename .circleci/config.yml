@@ -35,8 +35,8 @@ jobs:
         command:
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
           docker build -t aguiljc/udacity:latest .
-          docker push -d aguiljc/udacity:latest
-          docker push aguiljc/udacity:latest
+          # docker push -d aguiljc/udacity:latest
+          # docker push aguiljc/udacity:latest
           # docker tag aguiljc/udacity:latest aguiljc/udacity:latest
           
 workflows:
