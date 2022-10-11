@@ -9,7 +9,7 @@ executors:
     environment:
       IMAGE_NAME: aguiljc/udacity
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: cimg/base:2021.04 #circleci/buildpack-deps:stretch
   python:
     docker:
       - image: circleci/python:3.7.3-stretch
