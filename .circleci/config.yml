@@ -35,7 +35,7 @@ jobs:
         name: Build and push the docker container
         command:
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin |
-          docker build -t aguiljc/udacity . 
+          docker build -t aguiljc/udacity . |
           echo docker images  #|
           #docker push aguiljc/udacity # |
           # docker tag aguiljc/udacity aguiljc/udacity:latest
