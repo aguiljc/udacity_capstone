@@ -36,8 +36,7 @@ jobs:
         command:
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin |
           docker build -t aguiljc/udacity . |
-          echo docker images  #|
-          #docker push aguiljc/udacity # |
+          docker push aguiljc/udacity # |
           # docker tag aguiljc/udacity aguiljc/udacity:latest
           
 workflows:
