@@ -4,12 +4,12 @@
 
 # Step 1:
 # Build image and add a descriptive tag
-docker build . --tag udacity
+docker build . --tag hello-world
 
 # Step 2: 
 # List docker images
-docker images udacity
+docker images hello-world
 
 # Step 3: 
 # Run flask app
-docker run -p 8000:80 udacity
+docker run -p 8000:80 hello-world
