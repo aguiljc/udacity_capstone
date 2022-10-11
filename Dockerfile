@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:stable
 
 # start with original html from nginx
 RUN rm /usr/share/nginx/html/index.html
