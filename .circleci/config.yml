@@ -29,6 +29,9 @@ jobs:
   build-container:
     docker: 
      - image: cimg/base:2022.066
+       auth:
+         username: aguiljc
+         password: $DOCKERHUB_PASSWORD
     steps:
      - checkout
      - setup_remote_docker
