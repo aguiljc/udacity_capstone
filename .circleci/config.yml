@@ -39,20 +39,20 @@ jobs:
           command: |
               make lint 
 
-  # build-container:
-  #   machine: true
-  #   working_directory: ~/app
-  #   steps:
-  #    - checkout
-  #    - run: 
-  #       name: Build and push the docker container
-  #       command:
-  #         echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin |
-  #         docker build -t aguiljc/udacity . |
-  #         docker push udacity:latest # |
+  build-container:
+    machine: true
+    working_directory: ~/app
+    steps:
+     - checkout
+     - run: 
+        name: Build and push the docker container
+        command:
+          echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin #|
+          # docker build -t aguiljc/udacity . |
+          # docker push udacity:latest # |
           # docker tag aguiljc/udacity aguiljc/udacity:latest
 
-  build-container:
+  new-build-container:
     executor: docker-publisher
     steps:
       - checkout
@@ -89,5 +89,5 @@ workflows:
       - lint-container
       - build-container:
          requires: [lint-container]
-      - publish-latest:
-         requires: [build-container]
+      # - publish-latest:
+      #    requires: [build-container]
