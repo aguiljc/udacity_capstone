@@ -26,21 +26,30 @@ jobs:
           command: |
               make lint 
 
-  build-container:
-    machine: true
-    working_directory: ~/app
-    steps:
-     - checkout
-     - run: 
-        name: Build and push the docker container
-        command:
-          echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin |
-          docker build -t aguiljc/udacity . |
-          docker push udacity:latest # |
+  # build-container:
+  #   machine: true
+  #   working_directory: ~/app
+  #   steps:
+  #    - checkout
+  #    - run: 
+  #       name: Build and push the docker container
+  #       command:
+  #         echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin |
+  #         docker build -t aguiljc/udacity . |
+  #         docker push udacity:latest # |
           # docker tag aguiljc/udacity aguiljc/udacity:latest
 
-
-   
+  build-container:
+    environment:
+      IMAGE_NAME: aguiljc/udacity
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build -t $IMAGE_NAME:latest .
           
 workflows:
   default:
