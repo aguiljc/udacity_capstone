@@ -34,11 +34,11 @@ jobs:
         name: Build and push the docker container
         command:
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
-          docker build -t aguiljc/udacity:0.0.${CIRCLE_BUILD_NUM} .
-          # docker push -d aguiljc/udacity:latest
-          # docker tag  aguiljc/udacity:latest aguiljc/udacity:latest
-          # docker push aguiljc/udacity:latest
-
+          docker build -t aguiljc/udacity:latest .
+          docker push -d aguiljc/udacity:latest
+          docker push aguiljc/udacity:latest
+          # docker tag aguiljc/udacity:latest aguiljc/udacity:latest
+          
 workflows:
   default:
     jobs:
