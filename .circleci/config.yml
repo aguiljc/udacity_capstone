@@ -10,7 +10,8 @@ orbs:
   aws-eks: circleci/aws-eks@0.2.3
 
 jobs:
-  build:
+
+  lint-container:
     docker:
       - image: python:3.7.3-stretch
     working_directory: ~/repo     
@@ -20,16 +21,14 @@ jobs:
           name: install dependencies
           command: |
             make install
+      - run:
+          name: run lint
+          command: |
+              . venv/bin/activate
+              make lint 
 
-#  Should not need to install hadolint as its in makefile
-#             # Install hadolint
-#             wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
-#             chmod +x /bin/hadolint
 
-
-#       # run lint!
-#       - run:
-#           name: run lint
-#           command: |
-#               . venv/bin/activate
-#               make lint 
+workflows:
+  default:
+    jobs:
+      - lint-container
