@@ -27,16 +27,9 @@ jobs:
               make lint 
 
   build-container:
-    executor: docker/docker
-    # docker: 
-    #  - image: docker/docker
-    #      auth:
-    #        username: aguiljc
-    #        password: $DOCKERHUB_PASSWORD
+    machine: true
     steps:
      - checkout
-    #  - setup_remote_docker
-    #  - docker/check
      - run: |
         echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
         docker build -t aguiljc/udacity:latest .
