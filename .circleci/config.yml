@@ -10,6 +10,12 @@ executors:
       IMAGE_NAME: aguiljc/udacity
     docker:
       - image: circleci/buildpack-deps:stretch
+  python:
+    docker:
+      - image: circleci/python:3.7.3-stretch
+  aws:
+    docker:
+      - image: amazon/aws-cli
 
 orbs:
   docker: circleci/docker@2.1.4
@@ -19,8 +25,7 @@ orbs:
 jobs:
 
   lint-container:
-    docker:
-      - image: python:3.7.3-stretch
+    executor: python
     working_directory: ~/repo     
     steps:
       - checkout
@@ -74,7 +79,7 @@ jobs:
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USER" --password-stdin |
             docker push $IMAGE_NAME:latest
           
 workflows:
