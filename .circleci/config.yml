@@ -50,6 +50,19 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
+
+  publish-latest:
+    environment:
+      IMAGE_NAME: udacity
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - setup_remote_docker
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker push $IMAGE_NAME:latest
           
 workflows:
   default:
@@ -57,3 +70,5 @@ workflows:
       - lint-container
       - build-container:
          requires: [lint-container]
+      - publish-latest:
+         requires: [build-container]
