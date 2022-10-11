@@ -28,23 +28,20 @@ jobs:
 
   build-container:
     executor: docker/docker
-    docker: 
-     - image: 
-         auth:
-           username: aguiljc
-           password: $DOCKERHUB_PASSWORD
+    # docker: 
+    #  - image: docker/docker
+    #      auth:
+    #        username: aguiljc
+    #        password: $DOCKERHUB_PASSWORD
     steps:
      - checkout
      - setup_remote_docker
      - docker/check
-    #  - docker/build:
-    #     image: aguiljc/udacity
-    #     tag: "latest"
-    #  - run: |
-        #  echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-        #  docker build -t aguiljc/udacity:latest
-        #  docker run -d --name aguiljc/udacity server
-        #  docker exec server curl --retry 10
+     - run: |
+        docker login -u ${DOCKER_USER} -p ${DOCKERHUB_PASSWORD}
+        docker build -t aguiljc/udacity:latest
+        docker run -d --name aguiljc/udacity server
+        docker exec server curl --retry 10
    
 
 workflows:
