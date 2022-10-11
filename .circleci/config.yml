@@ -36,8 +36,8 @@ jobs:
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
           docker build -t aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7} .
           docker push  -d aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7}
-          docker tag  aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7} aguiljc/udacity:latest
-          docker push aguiljc/udacity:latest
+          # docker tag  aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7} aguiljc/udacity:latest
+          # docker push aguiljc/udacity:latest
 
 workflows:
   default:
