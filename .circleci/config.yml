@@ -38,7 +38,7 @@ jobs:
     #  - setup_remote_docker
     #  - docker/check
      - run: |
-        docker login -u ${DOCKER_USER} -p ${DOCKERHUB_PASSWORD}
+        echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
         # docker build -t aguiljc/udacity:latest
         # docker run -d --name aguiljc/udacity server
         # docker exec server curl --retry 10
