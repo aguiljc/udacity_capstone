@@ -27,14 +27,15 @@ jobs:
               make lint 
 
   build-container:
-    docker: 
-     - image: cimg/base:2022.066
-       auth:
-         username: aguiljc
-         password: $DOCKERHUB_PASSWORD
+    executor: docker/docker 
+    #  - image: cimg/base:2022.066
+    #    auth:
+    #      username: aguiljc
+    #      password: $DOCKERHUB_PASSWORD
     steps:
      - checkout
      - setup_remote_docker
+     - docker/check
      - run: |
          docker build -t aguiljc/udacity:latest
          docker run -d --name aguiljc/udacity server
