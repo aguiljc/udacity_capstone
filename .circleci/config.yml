@@ -85,6 +85,8 @@ jobs:
           command: |
             docker push $IMAGE_NAME:latest
           # echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
+
+
 workflows:
   default:
     jobs:
