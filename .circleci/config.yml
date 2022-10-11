@@ -39,9 +39,9 @@ jobs:
     #  - docker/check
      - run: |
         docker login -u ${DOCKER_USER} -p ${DOCKERHUB_PASSWORD}
-        docker build -t aguiljc/udacity:latest
-        docker run -d --name aguiljc/udacity server
-        docker exec server curl --retry 10
+        # docker build -t aguiljc/udacity:latest
+        # docker run -d --name aguiljc/udacity server
+        # docker exec server curl --retry 10
    
 
 workflows:
