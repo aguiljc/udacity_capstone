@@ -28,6 +28,7 @@ jobs:
 
   build-container:
     machine: true
+    working_directory: ~/app
     steps:
      - checkout
      - run: 
@@ -35,7 +36,7 @@ jobs:
         command:
           echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKER_USER --password-stdin |
           docker build -t aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7} . |
-          docker push aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7}:latest # |
+          docker push aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7} # |
           # docker tag aguiljc/udacity aguiljc/udacity:latest
           
 workflows:
