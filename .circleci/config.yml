@@ -36,11 +36,14 @@ jobs:
      - checkout
      - setup_remote_docker
      - docker/check
-     - run: |
-         echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-         docker build -t aguiljc/udacity:latest
-         docker run -d --name aguiljc/udacity server
-         docker exec server curl --retry 10
+     - docker/build:
+        image: aguiljc/udacity
+        tag: "latest"
+    #  - run: |
+        #  echo $DOCKERHUB_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+        #  docker build -t aguiljc/udacity:latest
+        #  docker run -d --name aguiljc/udacity server
+        #  docker exec server curl --retry 10
    
 
 workflows:
