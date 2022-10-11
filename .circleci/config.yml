@@ -5,8 +5,8 @@
 version: 2.1
 
 orbs:
-  docker: circleci/docker@2.0.1
-  kubernetes: circleci/kubernetes@0.12.0
+  docker: circleci/docker@2.1.4
+  kubernetes: circleci/kubernetes@0.14.0
   aws-eks: circleci/aws-eks@0.2.3
 
 jobs:
@@ -26,8 +26,21 @@ jobs:
           command: |
               make lint 
 
+  build-container:
+    docker: 
+     - image: cimg/base:2022.066
+    steps:
+     - checkout
+     - setup_remote_docker
+     - run: |
+         docker build -t aguiljc/udacity:latest
+         docker run -d --name aguiljc/udacity server
+         docker exec server curl --retry 10 --retry-connrefused http://localhost:8080
+   
 
 workflows:
   default:
     jobs:
       - lint-container
+      - build-container:
+         requires: [lint-container]
