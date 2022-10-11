@@ -35,7 +35,7 @@ jobs:
     steps:
      - checkout
      - setup_remote_docker
-     - docker/check
+    #  - docker/check
     #  - docker/build:
     #     image: aguiljc/udacity
     #     tag: "latest"
