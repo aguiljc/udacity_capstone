@@ -75,9 +75,13 @@ workflows:
       # - lint-container
       # - build-push-container:
       #    requires: [lint-container]
-      - test-cluster:
-          cluster-name: udacity-capstone #cluster name I created within AWS
+      - aws-eks/create-cluster:
+          cluster-name: udacity-cluster
           #requires: [build-push-container]
+      - test-cluster:
+          cluster-name: udacity-cluster
+          requires: 
+            - aws-eks/create-cluster
 
 
 # CIRCLE CI EXAMPLE EKS Cluster Creation
