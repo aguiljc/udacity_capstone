@@ -43,7 +43,7 @@ jobs:
               make lint 
 
   build-container:
-    executor: docker_publisher
+    executor: docker-publisher
     working_directory: ~/app
     steps:
      - checkout
