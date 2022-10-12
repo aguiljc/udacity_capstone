@@ -60,8 +60,8 @@ jobs:
           Name of the EKS cluster
         type: string
     steps:
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
+      # - aws-eks/update-kubeconfig-with-authenticator:
+      #     cluster-name: << parameters.cluster-name >>
       - run:
           command: |
             kubectl get services
