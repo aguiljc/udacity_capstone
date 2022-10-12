@@ -62,6 +62,8 @@ jobs:
     steps:
       # - aws-eks/update-kubeconfig-with-authenticator:
       #     cluster-name: << parameters.cluster-name >>
+      - kubernetes/install:
+          kubectl-version: v1.22.0
       - run:
           command: |
             kubectl get services
