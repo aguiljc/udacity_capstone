@@ -9,7 +9,7 @@ executors:
     environment:
       IMAGE_NAME: aguiljc/udacity
     docker:
-      - image: cimg/base:2021.04 
+      - image: docker:stable-git
         auth:
           username: $DOCKER_USERNAME
           password: $DOCKERHUB_PASSWORD
@@ -56,7 +56,7 @@ jobs:
           # docker tag aguiljc/udacity aguiljc/udacity:latest
 
   new-build-container:
-    executor: docker/docker
+    executor: docker-publisher
     steps:
       - setup_remote_docker
       - checkout
@@ -73,7 +73,7 @@ jobs:
             echo "This is the path: $(</tmp/digest.txt)"
 
   publish-latest:
-    executor: docker/docker
+    executor: docker-publisher
     steps:
       - attach_workspace:
           at: /tmp/workspace
