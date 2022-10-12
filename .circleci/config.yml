@@ -49,10 +49,10 @@ jobs:
      - checkout
      - run: 
         name: Build and push the docker container
-        command:
-          docker build --tag=aguiljc/udacity .
-          docker image ls
-          docker login -u aguiljc -p $DOCKERHUB_PASSWORD
+        command: |
+          docker build --tag=aguiljc/udacity . |
+          docker image ls |
+          docker login -u aguiljc -p $DOCKERHUB_PASSWORD |
           docker push aguiljc/udacity
 
   new-build-container:
