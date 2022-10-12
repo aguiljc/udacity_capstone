@@ -87,7 +87,6 @@ jobs:
           resource-file-path: deployment.yml
           resource-name: deployment/udacity-app
 
-
 workflows:
   default:
     jobs:
@@ -115,7 +114,6 @@ workflows:
           requires:
             - create-deployment
           resource-name: deployment/udacity-app
-
 
       # - aws-eks/delete-cluster:
       #     cluster-name: udacity-cluster
