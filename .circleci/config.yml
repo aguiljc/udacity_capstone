@@ -69,53 +69,55 @@ jobs:
             kubectl get services
           name: Test cluster
 
+  create-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+    steps:
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - kubernetes/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path: deployment.yml
+          resource-name: deployment/udacity-app
+
+
 workflows:
   default:
     jobs:
-      # - lint-container
-      # - build-push-container:
-      #    requires: [lint-container]
-      - aws-eks/create-cluster:
-          cluster-name: udacity-cluster
-          #requires: [build-push-container]
+      - lint-container
+      - build-push-container:
+         requires: [lint-container]
+      # - aws-eks/create-cluster:
+      #     cluster-name: udacity-cluster
+      #     requires: [build-push-container]
       - test-cluster:
           cluster-name: udacity-cluster
-          requires: 
-            - aws-eks/create-cluster
+          requires: [build-push-container]
+            # - aws-eks/create-cluster
+      - create-deployment:
+          cluster-name: udacity-cluster
+          requires: [test-cluster]
+      - aws-eks/update-container-image:
+          cluster-name: udacity-cluster
+          container-image-updates: udacity-app=aguiljc/udacity
+          post-steps:
+            - kubernetes/delete-resource:
+                resource-names: udacity-app
+                resource-types: deployment
+                wait: true
+          requires:
+            - create-deployment
+          resource-name: deployment/udacity-app
 
 
-# CIRCLE CI EXAMPLE EKS Cluster Creation
-      # - aws-eks/create-cluster:
-      #     cluster-name: my-eks-demo
-      # - test-cluster:
-      #     cluster-name: my-eks-demo
-      #     requires:
-      #       - aws-eks/create-cluster
       # - aws-eks/delete-cluster:
-      #     cluster-name: my-eks-demo
-      #     requires:
-      #       - test-cluster
-
-
-# CIRCLE CI EXAMPLE Kubernetes Deployment
-      # - aws-eks/create-cluster:
-      #     cluster-name: eks-demo-deployment
-      # - create-deployment:
-      #     cluster-name: eks-demo-deployment
-      #     requires:
-      #       - aws-eks/create-cluster
-      # - aws-eks/update-container-image:
-      #     cluster-name: eks-demo-deployment
-      #     container-image-updates: 'nginx=nginx:1.9.1'
-      #     post-steps:
-      #       - kubernetes/delete-resource:
-      #           resource-names: nginx-deployment
-      #           resource-types: deployment
-      #           wait: true
-      #     requires:
-      #       - create-deployment
-      #     resource-name: deployment/nginx-deployment
-      # - aws-eks/delete-cluster:
-      #     cluster-name: eks-demo-deployment
+      #     cluster-name: udacity-cluster
       #     requires:
       #       - aws-eks/update-container-image
+
