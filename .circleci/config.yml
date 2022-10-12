@@ -22,7 +22,7 @@ jobs:
         - run: 
             name: Publish Docker Image to Docker Hub
             command: |
-              echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+              edocker login -u "$DOCKER_USER" -p "$DOCKERHUB_PASSWORD" docker.io
               docker build -t $IMAGE_NAME .
               docker push $IMAGE_NAME:latest
 workflows:
@@ -44,7 +44,7 @@ workflows:
 #     docker:
 #       - image: cimg/base:2021.04 
 #         auth:
-#           username: $DOCKER_USER
+#           username: $DOCKER_USERNAME
 #           password: $DOCKERHUB_PASSWORD
 #   python:
 #     docker:
