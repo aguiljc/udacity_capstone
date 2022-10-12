@@ -5,14 +5,6 @@
 version: 2.1
 
 executors:
-  docker-publisher:
-    environment:
-      IMAGE_NAME: aguiljc/udacity
-    docker:
-      - image: cimg/base:2021.04 
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKERHUB_PASSWORD
   python:
     docker:
       - image: circleci/python:3.7.3-stretch
@@ -42,7 +34,7 @@ jobs:
           command: |
               make lint 
 
-  new-build-container:
+  build-push-container:
     executor: docker/docker
     steps:
       - setup_remote_docker
@@ -59,25 +51,9 @@ jobs:
           command: |
             echo "This is the path: $(</tmp/digest.txt)"
 
-  publish-latest:
-    executor: docker/docker
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - setup_remote_docker
-      - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/image.tar
-      - run:
-          name: Publish Docker Image to Docker Hub
-          command: |
-            docker push $IMAGE_NAME:latest
-
 workflows:
   default:
     jobs:
       - lint-container
-      - new-build-container:
+      - build-push-container:
          requires: [lint-container]
-      - publish-latest:
-         requires: [new-build-container]
