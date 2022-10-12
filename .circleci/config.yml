@@ -52,7 +52,7 @@ jobs:
         command: |
           docker build --tag=aguiljc/udacity . |
           docker image ls |
-          docker login -u aguiljc -p $DOCKERHUB_PASSWORD |
+          docker login -u aguiljc -p $DOCKERHUB_PASSWORD docker.io |
           docker push aguiljc/udacity
 
   new-build-container:
