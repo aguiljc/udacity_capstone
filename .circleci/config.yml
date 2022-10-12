@@ -1,43 +1,28 @@
 version: 2.1
-orbs:
-  docker: circleci/docker@2.0.1
-  kubernetes: circleci/kubernetes@0.12.0
-  aws-eks: circleci/aws-eks@0.2.3
+
+executors:
+  python:
+    docker:
+      - image: circleci/python:3.7.3-stretch
+  aws:
+    docker:
+      - image: amazon/aws-cli
 
 jobs:
 
-  lint-app:
-    docker:
-      - image: python:3.7.3-stretch
-    working_directory: ~/repo
+  build:
+    machine: true
+    working_directory: ~/app
     steps:
       - checkout
       - run:
-          name: install dependencies
+          name: Build, tag and push docker image to docker.io
           command: |
-            make install
-      - run:
-          name: run lint
-          command: |
-            make lint
-
-  build-push-images:
-    executor: docker/docker
-    steps:
-      - setup_remote_docker
-      - checkout
-      - docker/check
-      - docker/build:
-          image: alexcgdocker/my-capstone-site
-          tag: "1.2"
-      - docker/push:
-          digest-path: /tmp/digest.txt
-          image: alexcgdocker/my-capstone-site
-          tag: "1.2"
-      - run:
-          command: |
-            echo "Digest is: $(</tmp/digest.txt)"
-            
+            docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+            docker build -t aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7} .
+            docker push aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7}
+            docker tag aguiljc/udacity:${CIRCLE_WORKFLOW_ID:0:7} aguiljc/udacity:latest
+            docker push aguiljc/udacity:latest
 workflows:
   default:
     jobs:
